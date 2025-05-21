@@ -1,0 +1,33 @@
+body {
+  text-align: center; /* Centers inline-block elements */
+  background-color: rgb(250,250,248);
+}
+
+img {
+  width: 360px;
+  align-items: center;
+  text-align: center;
+  justify-items: center;
+  margin-bottom: 100px;
+  margin-top: 40px;
+}
+
+.loader {
+  display: block;
+  margin: 10px auto; /* Centers the loader below the image */
+  width: 36px;
+  height: 36px;
+  border: 4px solid rgba(59, 59, 59, 0.746);
+  border-left-color: transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

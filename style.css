@@ -1,0 +1,908 @@
+body{
+  background-image: url(bg.jpg);
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  font-family: "Montserrat", sans-serif;
+  margin: 0; /* Add this to remove default body margin */
+  overflow: hidden; /* Prevent scrolling if not needed */
+}
+
+.desktop {
+  position: absolute;
+  width: 90%;
+  height: calc(100% - 50px); /* Adjust height to account for taskbar */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding-top: 20px; /* Add some padding from the top */
+  padding-left: 20px; /* Add some padding from the left */
+}
+
+.app-icon {
+  width: 80px;
+  height: 80px;
+  margin: 20px;
+  margin-right: 1px;
+  text-align: center;
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0);
+  font-family: "Montserrat", sans-serif;
+  color: white; /* Ensure text is visible on dark background */
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.7); /* Add text shadow for readability */
+}
+
+.app-icon:hover{
+  background-color: rgba(255, 255, 255, 0.432);
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.app-icon img {
+  width: 50px;
+  height: 50px;
+  display: inline-block;
+}
+
+.app-icon p {
+  font-size: 12px;
+  margin-top: 5px;
+  font-weight: bold;
+}
+
+.window {
+  position: absolute;
+  width: 400px;
+  height: auto;
+  max-height: 80%;
+  background-color: #fff;
+  border: 2px solid #333;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  display: none;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  overflow-y: auto; /* To handle long content */
+  border-radius: 8px; /* Added for consistency with calculator */
+}
+
+.window-header {
+  background-color: #333;
+  color: white;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: grab; /* Indicate draggable */
+  border-top-left-radius: 6px; /* Match window border-radius */
+  border-top-right-radius: 6px; /* Match window border-radius */
+}
+
+.window-header button {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 0;
+}
+
+.window-content {
+  padding: 20px;
+  cursor: normal;
+}
+
+.window-image {
+  width: 100%;
+  max-height: 200px;
+  object-fit: contain; /* Changed to contain to prevent stretching */
+  margin-bottom: 20px;
+  display: block; /* Ensures it takes up full width */
+  margin-left: auto; /* Center image */
+  margin-right: auto; /* Center image */
+}
+
+#binimg{
+  width: 100px;
+  height: auto; /* Maintain aspect ratio */
+  display: block;
+  margin: 0 auto 20px auto; /* Center it */
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  text-align: center; /* Center headings in window content */
+}
+
+p {
+  font-size: 16px;
+  text-align: center; /* Center paragraphs in window content */
+}
+
+pre {
+  white-space: pre-wrap; /* Ensure text wraps */
+  word-wrap: break-word; /* Break long words */
+  font-family: monospace;
+  background-color: #f0f0f0;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+/* Taskbar */
+.taskbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.342);
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    box-shadow: 0 -2px 5px rgba(255, 255, 255, 0.527);
+    backdrop-filter: blur(5px); /* Add a blur effect */
+    -webkit-backdrop-filter: blur(5px); /* For Safari */
+    z-index: 200; /* Ensure taskbar is on top */
+}
+  
+/* Start Button */
+.start-btn {
+  background: #0078D7;
+  color: white;
+  border: none;
+  margin-right: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 35px;
+  height: 35px;
+  font-size: 25px;
+  margin-right: 20px;
+  transition: transform 0.3s ease-in;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.start-btn:hover{
+  background: rgb(0, 82, 149);
+  transform: scale(1.1);
+}
+
+/* Taskbar Items */
+.taskbar-items {
+  display: flex;
+  flex-grow: 1;
+  gap: 15px;
+}
+
+.taskbar-item {
+  width: 35px;
+  height: 35px;
+  background: rgba(255, 255, 255, 0);
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 32px;
+}
+
+.taskbar-item:hover {
+  background: #777;
+}
+
+/* Clock */
+.clock {
+  padding: 0 40px; /* Added more space from the right side */
+  font-size: 22px;
+  font-weight: bold;
+  font-family: "Montserrat", sans-serif;
+  color: #333; /* Make clock text more visible */
+}
+
+/* Start Menu */
+.start-menu {
+  position: absolute;
+  bottom: 60px; /* Positioned just above the taskbar */
+  left: 0;
+  width: 200px;
+  background-color: #333;
+  color: white;
+  border-radius: 8px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+  display: none; /* Hidden by default */
+  z-index: 150; /* Ensure start menu is above windows but below taskbar */
+  margin-left: 14px;
+}
+
+.start-menu-item {
+  padding: 10px;
+  border-bottom: 1px solid #444;
+  cursor: pointer;
+}
+
+.start-menu-item:hover {
+  background-color: #555;
+}
+
+.start-menu-item:last-child {
+  border-bottom: none;
+}
+
+/* NC Web Browser specific styles */
+.url-input {
+  width: calc(100% - 20px); /* Adjust width to account for padding */
+  padding: 10px;
+  font-size: 16px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc; /* Add a subtle border */
+  border-radius: 4px;
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+.url-input:focus {
+  outline: none;
+  border-color: #0078d4; /* Highlight on focus */
+}
+
+.browser-frame {
+  width: 100%;
+  height: 300px;
+  border: 1px solid #eee; /* Add a subtle border to the iframe */
+  background-color: #f9f9f9;
+}
+
+/* App Store specific styles */
+.app-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.store-app {
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+}
+
+.store-app:hover {
+  background-color: #ddd;
+}
+
+/* Notepad specific styles */
+textarea {
+  box-sizing: border-box;
+  resize: vertical; /* Allow vertical resizing */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  font-family: monospace;
+}
+
+/* Calculator Window Styling */
+#calc-display {
+  width: calc(100% - 20px); /* Adjust width to account for padding */
+  margin: 10px auto;
+  padding: 10px;
+  font-size: 22px;
+  text-align: right;
+  display: block;
+  border: 2px solid #222;
+  border-radius: 4px;
+  background: #fff;
+  color: black;
+  box-sizing: border-box;
+}
+
+/* Calculator Buttons */
+.calc-buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
+  padding: 10px;
+}
+
+.calc-buttons button {
+  padding: 15px;
+  font-size: 18px;
+  background: #ddd;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.calc-buttons button:hover {
+  background: #bbb;
+}
+
+.calc-buttons button:active {
+  background: #999;
+}
+
+.calc-buttons button:nth-child(4n), /* Operator buttons */
+.calc-buttons button:nth-child(15) /* Equals button */ {
+  background: #ff9800;
+  color: white;
+}
+
+.calc-buttons button:nth-child(4n):hover,
+.calc-buttons button:nth-child(15):hover {
+  background: #e68900;
+}
+
+.calc-buttons button:nth-child(4n):active,
+.calc-buttons button:nth-child(15):active {
+  background: #cc7700;
+}
+
+/* Music Player specific styles */
+select, audio {
+  margin: 10px auto;
+  display: block;
+  width: calc(100% - 20px);
+}
+
+/* File Explorer (Computer App) styles */
+.explorer {
+  font-family: "Segoe UI", sans-serif;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 100%; /* Make it fill the window content */
+  height: auto; /* Adjust height dynamically */
+  background: #fff;
+  box-shadow: none; /* Remove redundant shadow */
+  margin: 0; /* Remove margin as it's within a window */
+}
+
+.top-bar {
+  background: #ffffff;
+  padding: 12px 20px;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 15px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.top-bar span {
+  color: #0078d4;
+  cursor: pointer;
+}
+
+.toolbar {
+  padding: 10px 20px;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  gap: 10px;
+}
+
+.toolbar button {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 6px;
+  background: #e8e8e8;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+.toolbar button:hover {
+  background: #d4d4d4;
+}
+
+.file-grid {
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Adjusted minmax for better layout */
+  gap: 15px; /* Reduced gap */
+}
+
+.item {
+  text-align: center;
+  padding: 8px; /* Reduced padding */
+  border-radius: 8px; /* Reduced border-radius */
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.item:hover {
+  background-color: #f0f0f0;
+}
+
+.item img {
+  width: 40px; /* Reduced icon size */
+  height: 40px; /* Reduced icon size */
+}
+
+.item p {
+  margin-top: 6px; /* Reduced margin */
+  font-size: 12px; /* Reduced font size */
+  overflow-wrap: break-word;
+  text-align: center; /* Ensure text is centered */
+}
+
+/* Calendar Specifics */
+#datePicker {
+  width: calc(100% - 20px); /* Adjust width to account for padding */
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  display: block;
+  margin: 10px auto;
+}
+
+/* Add this new class */
+.taskbar-item.active {
+  background: rgba(255, 255, 255, 0.6); /* Lighter background for active */
+  border-bottom: 3px solid #0078d4; /* Blue underline */
+  padding-top: 3px; /* Adjust for underline */
+}
+
+/* Modify existing .taskbar-item */
+.taskbar-item {
+  width: 35px;
+  height: 35px;
+  background: rgba(255, 255, 255, 0);
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  /* font-size: 32px; Remove this as we'll use an image for icons */
+  overflow: hidden; /* Ensure content doesn't spill out */
+  transition: background 0.2s, border-bottom 0.2s, padding-top 0.2s; /* Add transitions */
+}
+
+.taskbar-item img {
+  width: 30px; /* Adjust icon size within taskbar item */
+  height: 30px;
+  pointer-events: none; /* Prevent clicks on the image itself, only on the div */
+}
+
+
+/* ... rest of your CSS ... */
+body{
+  background-image: url(bg.jpg);
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  font-family: "Montserrat", sans-serif;
+  margin: 0; /* Add this to remove default body margin */
+  overflow: hidden; /* Prevent scrolling if not needed */
+}
+
+.desktop {
+  position: absolute;
+  width: 90%;
+  height: calc(100% - 50px); /* Adjust height to account for taskbar */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding-top: 20px; /* Add some padding from the top */
+  padding-left: 20px; /* Add some padding from the left */
+}
+
+.app-icon {
+  width: 80px;
+  height: 80px;
+  margin: 20px;
+  margin-right: 1px;
+  text-align: center;
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0);
+  font-family: "Montserrat", sans-serif;
+  color: white; /* Ensure text is visible on dark background */
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.7); /* Add text shadow for readability */
+}
+
+.app-icon:hover{
+  background-color: rgba(255, 255, 255, 0.432);
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.app-icon img {
+  width: 50px;
+  height: 50px;
+  display: inline-block;
+}
+
+.app-icon p {
+  font-size: 12px;
+  margin-top: 5px;
+  font-weight: bold;
+}
+
+.window {
+  position: absolute;
+  width: 400px;
+  height: auto;
+  max-height: 80%;
+  background-color: #fff;
+  border: 2px solid #333;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  display: none;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  overflow-y: auto; /* To handle long content */
+  border-radius: 8px; /* Added for consistency with calculator */
+}
+
+.window-header {
+  background-color: #333;
+  color: white;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: grab; /* Indicate draggable */
+  border-top-left-radius: 6px; /* Match window border-radius */
+  border-top-right-radius: 6px; /* Match window border-radius */
+}
+
+.window-header button {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 0;
+}
+
+.window-content {
+  padding: 20px;
+  cursor: normal;
+}
+
+.window-image {
+  width: 100%;
+  max-height: 200px;
+  object-fit: contain; /* Changed to contain to prevent stretching */
+  margin-bottom: 20px;
+  display: block; /* Ensures it takes up full width */
+  margin-left: auto; /* Center image */
+  margin-right: auto; /* Center image */
+}
+
+#binimg{
+  width: 100px;
+  height: auto; /* Maintain aspect ratio */
+  display: block;
+  margin: 0 auto 20px auto; /* Center it */
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  text-align: center; /* Center headings in window content */
+}
+
+p {
+  font-size: 16px;
+  text-align: center; /* Center paragraphs in window content */
+}
+
+pre {
+  white-space: pre-wrap; /* Ensure text wraps */
+  word-wrap: break-word; /* Break long words */
+  font-family: monospace;
+  background-color: #f0f0f0;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+/* Taskbar */
+.taskbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.342);
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    box-shadow: 0 -2px 5px rgba(255, 255, 255, 0.527);
+    backdrop-filter: blur(5px); /* Add a blur effect */
+    -webkit-backdrop-filter: blur(5px); /* For Safari */
+    z-index: 200; /* Ensure taskbar is on top */
+}
+  
+/* Start Button */
+.start-btn {
+  background: #0078D7;
+  color: white;
+  border: none;
+  margin-right: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 35px;
+  height: 35px;
+  font-size: 25px;
+  margin-right: 20px;
+  transition: transform 0.3s ease-in;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.start-btn:hover{
+  background: rgb(0, 82, 149);
+  transform: scale(1.1);
+}
+
+/* Taskbar Items */
+.taskbar-items {
+  display: flex;
+  flex-grow: 1;
+  gap: 15px;
+}
+
+
+.taskbar-item:hover {
+  background: #777;
+}
+
+/* Clock */
+.clock {
+  padding: 0 40px; /* Added more space from the right side */
+  font-size: 22px;
+  font-weight: bold;
+  font-family: "Montserrat", sans-serif;
+  color: #333; /* Make clock text more visible */
+}
+
+/* Start Menu */
+.start-menu {
+  position: absolute;
+  bottom: 60px; /* Positioned just above the taskbar */
+  left: 0;
+  width: 200px;
+  background-color: #333;
+  color: white;
+  border-radius: 8px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+  display: none; /* Hidden by default */
+  z-index: 150; /* Ensure start menu is above windows but below taskbar */
+  margin-left: 14px;
+}
+
+.start-menu-item {
+  padding: 10px;
+  border-bottom: 1px solid #444;
+  cursor: pointer;
+}
+
+.start-menu-item:hover {
+  background-color: #555;
+}
+
+.start-menu-item:last-child {
+  border-bottom: none;
+}
+
+/* NC Web Browser specific styles */
+.url-input {
+  width: calc(100% - 20px); /* Adjust width to account for padding */
+  padding: 10px;
+  font-size: 16px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc; /* Add a subtle border */
+  border-radius: 4px;
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+.url-input:focus {
+  outline: none;
+  border-color: #0078d4; /* Highlight on focus */
+}
+
+.browser-frame {
+  width: 100%;
+  height: 300px;
+  border: 1px solid #eee; /* Add a subtle border to the iframe */
+  background-color: #f9f9f9;
+}
+
+/* App Store specific styles */
+.app-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.store-app {
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+}
+
+.store-app:hover {
+  background-color: #ddd;
+}
+
+/* Notepad specific styles */
+textarea {
+  box-sizing: border-box;
+  resize: vertical; /* Allow vertical resizing */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  font-family: monospace;
+}
+
+/* Calculator Window Styling */
+#calc-display {
+  width: calc(100% - 20px); /* Adjust width to account for padding */
+  margin: 10px auto;
+  padding: 10px;
+  font-size: 22px;
+  text-align: right;
+  display: block;
+  border: 2px solid #222;
+  border-radius: 4px;
+  background: #fff;
+  color: black;
+  box-sizing: border-box;
+}
+
+/* Calculator Buttons */
+.calc-buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
+  padding: 10px;
+}
+
+.calc-buttons button {
+  padding: 15px;
+  font-size: 18px;
+  background: #ddd;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.calc-buttons button:hover {
+  background: #bbb;
+}
+
+.calc-buttons button:active {
+  background: #999;
+}
+
+.calc-buttons button:nth-child(4n), /* Operator buttons */
+.calc-buttons button:nth-child(15) /* Equals button */ {
+  background: #ff9800;
+  color: white;
+}
+
+.calc-buttons button:nth-child(4n):hover,
+.calc-buttons button:nth-child(15):hover {
+  background: #e68900;
+}
+
+.calc-buttons button:nth-child(4n):active,
+.calc-buttons button:nth-child(15):active {
+  background: #cc7700;
+}
+
+/* Music Player specific styles */
+select, audio {
+  margin: 10px auto;
+  display: block;
+  width: calc(100% - 20px);
+}
+
+/* File Explorer (Computer App) styles */
+.explorer {
+  font-family: "Segoe UI", sans-serif;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 100%; /* Make it fill the window content */
+  height: auto; /* Adjust height dynamically */
+  background: #fff;
+  box-shadow: none; /* Remove redundant shadow */
+  margin: 0; /* Remove margin as it's within a window */
+}
+
+.top-bar {
+  background: #ffffff;
+  padding: 12px 20px;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 15px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.top-bar span {
+  color: #0078d4;
+  cursor: pointer;
+}
+
+.toolbar {
+  padding: 10px 20px;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  gap: 10px;
+}
+
+.toolbar button {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 6px;
+  background: #e8e8e8;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+.toolbar button:hover {
+  background: #d4d4d4;
+}
+
+.file-grid {
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Adjusted minmax for better layout */
+  gap: 15px; /* Reduced gap */
+}
+
+.item {
+  text-align: center;
+  padding: 8px; /* Reduced padding */
+  border-radius: 8px; /* Reduced border-radius */
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.item:hover {
+  background-color: #f0f0f0;
+}
+
+.item img {
+  width: 40px; /* Reduced icon size */
+  height: 40px; /* Reduced icon size */
+}
+
+.item p {
+  margin-top: 6px; /* Reduced margin */
+  font-size: 12px; /* Reduced font size */
+  overflow-wrap: break-word;
+  text-align: center; /* Ensure text is centered */
+}
+
+/* Calendar Specifics */
+#datePicker {
+  width: calc(100% - 20px); /* Adjust width to account for padding */
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  display: block;
+  margin: 10px auto;
+}
